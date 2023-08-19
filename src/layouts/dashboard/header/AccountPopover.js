@@ -9,15 +9,11 @@ import account from '../../../_mock/account';
 
 const MENU_OPTIONS = [
   {
-    label: 'Home',
+    label: 'Bosh sahifa',
     icon: 'eva:home-fill',
   },
   {
-    label: 'Profile',
-    icon: 'eva:person-fill',
-  },
-  {
-    label: 'Settings',
+    label: 'Sozlamalar',
     icon: 'eva:settings-2-fill',
   },
 ];
@@ -98,7 +94,7 @@ export default function AccountPopover() {
         <Divider sx={{ borderStyle: 'dashed' }} />
 
         <MenuItem onClick={handleClose} sx={{ m: 1 }}>
-          Logout
+          Chiqish
         </MenuItem>
       </Popover>
     </>
