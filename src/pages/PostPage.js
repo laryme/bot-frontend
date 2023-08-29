@@ -17,7 +17,7 @@ const SORT_OPTIONS = [
 
 // ----------------------------------------------------------------------
 
-export default function BlogPage() {
+export default function PostPage() {
   return (
     <>
       <Helmet>
@@ -29,7 +29,7 @@ export default function BlogPage() {
           <Typography variant="h4" gutterBottom>
             Postlar
           </Typography>
-          <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
+          <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} href='/dashboard/post-create'>
             Yangi post yaratish
           </Button>
         </Stack>

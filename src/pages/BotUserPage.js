@@ -1,7 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { sentenceCase } from 'change-case';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 // @mui
 import {
   Card,
@@ -16,56 +14,50 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination,
+  IconButton,
 } from '@mui/material';
 
+import axios from 'axios';
+import Swal from 'sweetalert2';
+
 // components
-import Label from '../components/label';
+
+import { Delete } from '@mui/icons-material';
 import Iconify from '../components/iconify';
 import Scrollbar from '../components/scrollbar';
+import Label from '../components/label';
+
 
 // sections
-import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
+import { UserListHead } from '../sections/@dashboard/user';
+
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'fullName', label: 'ISM', alignRight: false },
+  { id: 'name', label: 'ISM', alignRight: false },
   { id: 'username', label: 'USERNAME', alignRight: false },
-  { id: 'chatId', label: 'CHAT ID', alignRight: false },
-  { id: 'status', label: 'STATUS', alignRight: false },
-  { id: 'joinedDate', label: 'RO\'YXATDAN O\'TGAN VAQTI', alignRight: false },
+  { id: 'password', label: 'STATUS', alignRight: false },
+  { id: 'role', label: 'ROL', alignRight: false },
   { id: '' },
 ];
+
+
+
 
 // ----------------------------------------------------------------------
 
 export default function UserPage() {
 
-  const [page, setPage] = useState(0);
-
-  const [filterName, setFilterName] = useState('');
-
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-
+  const avatarUrl = '/assets/images/avatars/avatar_2.jpg'
   const [users, setUsers] = useState([]);
 
-  const [totalUsers, setTotalUsers] = useState(0);
-
-  const avatarUrl = '/assets/images/avatars/avatar_1.jpg'
-
   useEffect(() => {
-    const apiUrl = 'http://localhost:8081/api/v1/users/bot-users';
+    const apiUrl = 'http://localhost:8081/api/v1/users';
     const config = {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `${localStorage.getItem('token-type')}${localStorage.getItem('access-token')}`
-      },
-      params: {
-        page,
-        size: rowsPerPage,
-        order: 'asc',
-        orderBy: 'fullName'
       }
     };
     // Fetch user data from the backend API
@@ -75,56 +67,59 @@ export default function UserPage() {
           console.log(data.content)
 
           setUsers(data.content);
-          setTotalUsers(data.totalElements)
         })
         .catch(error => {
             console.error('Error fetching users:', error);
         });
-  }, [page, rowsPerPage]);
+  }, []);
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setPage(0);
-    setRowsPerPage(parseInt(event.target.value, 10));
-  };
-
-  const handleFilterByName = (event) => {
-    setPage(0);
-    setFilterName(event.target.value);
-  };
-
-  const onSearch = () => {
-
-    const apiUrl = 'http://localhost:8081/api/v1/users/bot-users/search';
+  const handleDeleteUser = (id) => {
+    const apiUrl = `http://localhost:8081/api/v1/users/${id}`;
     const config = {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `${localStorage.getItem('token-type')}${localStorage.getItem('access-token')}`
-      },
-      params: {
-        query: filterName
       }
     };
-    // Fetch user data from the backend API
-    axios.get(apiUrl, config)
-        .then(response => {
-          const {data} = response.data
-          console.log(data.content)
+  
+    axios.delete(apiUrl, config)
+      .then(response => {
+        const {data} = response
+        setUsers(users.filter(user => user.id !== id))
+        Swal.fire(
+          data.success ? 'O\'chirildi!' : 'Xatolik',
+          data.message,
+          data.success ? 'success' : 'fail'
+        )
+      })
+      .catch(error => {
+        Swal.fire(
+          'Xatolik',
+          'Xatolik sodir bo\'ldi',
+          'error'
+        )
+      })
+  }
+  
+  const showDeleteAlert = (id) => {
+    Swal.fire({
+      title: 'Tasdiqlaysizmi?',
+      text: "Siz bu amalni ortga qaytara olmaysiz   !",
+      icon: 'warning',
+      iconColor: '#3085d6',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Tasdiqlash',
+      cancelButtonText: 'Bekor qilish'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleDeleteUser(id)
+      }
+    })
+  }
 
-          setUsers(data.content);
-          setTotalUsers(data.totalElements)
-        })
-        .catch(error => {
-            console.error('Error fetching users:', error);
-        });
-    // smth
-  };
-
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
-
+  const emptyRows = users.length > 3 ? 1 : 4;
   const isNotFound = false;
 
   return (
@@ -138,20 +133,19 @@ export default function UserPage() {
           <Typography variant="h4" gutterBottom>
             Foydalanuvchilar
           </Typography>
-          <Button variant="contained" startIcon={<Iconify icon="eva:download-fill" />}>
-            Malumotlarni yuklab olish
+          <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
+            Yangi foydalanuvchi qo'shish
           </Button>
         </Stack>
 
         <Card>
-          <UserListToolbar filterName={filterName} onFilterName={handleFilterByName} onSearch={onSearch} />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
                 <UserListHead headLabel={TABLE_HEAD}/>
                 <TableBody>
                   {users.map((user) => {
-                    const { id, fullName, username, chatId, status, joinedDate } = user;
+                    const { id, fullName, username, role } = user;
 
                     return (
                       <TableRow hover key={id} tabIndex={-1}>
@@ -166,13 +160,30 @@ export default function UserPage() {
 
                         <TableCell align="left">{username}</TableCell>
 
-                        <TableCell align="left">{chatId}</TableCell>
-
                         <TableCell align="left">
-                          <Label color={(status ? 'success' : 'error') || 'success'}>{sentenceCase(status ? 'active' : 'inactive')}</Label>
+                          {role.includes('ADMIN') 
+                            ?
+                            <Label color={'success'}>
+                              Secured
+                            </Label>
+                            :
+                            <Label color={'error'}>
+                              Unsecured
+                            </Label>
+                          }
                         </TableCell>
 
-                        <TableCell align="left">{joinedDate}</TableCell>
+                        <TableCell align="left">
+                          <Label color={'success'}>
+                            {role}
+                          </Label>
+                        </TableCell>
+
+                        <TableCell align="right">
+                          <IconButton size="large" disabled={role.includes('ADMIN')} color="inherit" onClick={() => showDeleteAlert(id)}>
+                            <Delete color='error'/>
+                          </IconButton>
+                        </TableCell>
                       </TableRow>
                     );
                   })}
@@ -198,7 +209,7 @@ export default function UserPage() {
 
                           <Typography variant="body2">
                             No results found for &nbsp;
-                            <strong>&quot;{filterName}&quot;</strong>.
+                            <strong>&quot;{'filterName'}&quot;</strong>.
                             <br /> Try checking for typos or using complete words.
                           </Typography>
                         </Paper>
@@ -209,16 +220,6 @@ export default function UserPage() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={totalUsers}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
         </Card>
       </Container>
     </>

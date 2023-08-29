@@ -3,29 +3,87 @@ import { useNavigate } from 'react-router-dom';
 // @mui
 import { Link, Stack, IconButton, InputAdornment, TextField } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 // components
 import Iconify from '../../../components/iconify';
+
 
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
   const navigate = useNavigate();
 
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
+
   const [showPassword, setShowPassword] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  
+  
+  const showToast = () => {
+    Toast.fire({
+      icon: 'error',
+      title: 'Foydalanuvchi nomi yoki parol xato'
+    })
+  }
+
+
 
   const handleClick = () => {
-    navigate('/dashboard', { replace: true });
+    axios.post(
+      'http://localhost:8081/api/v1/auth/sign-in',
+      {
+        username,
+        password
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then((response) => {
+        console.log(response)
+        const {data} = response;
+        if(data.success){
+          const token = data.data;
+          localStorage.setItem('access-token', token.accessToken)
+          localStorage.setItem('refresh-token', token.refreshToken)
+          localStorage.setItem('token-type', token.tokenType)
+          navigate('/dashboard', { replace: true });
+        }
+      }).catch(e =>{
+        showToast()
+      });
   };
 
   return (
     <>
       <Stack spacing={3}>
-        <TextField name="email" label="Elektron pochta" />
+        <TextField
+          name="username" 
+          label="Foydalanuvchi nomini kiriting"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
 
         <TextField
           name="password"
           label="Maxfiy so'z"
           type={showPassword ? 'text' : 'password'}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">

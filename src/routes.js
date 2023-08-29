@@ -3,13 +3,14 @@ import { Navigate, useRoutes } from 'react-router-dom';
 import DashboardLayout from './layouts/dashboard';
 import SimpleLayout from './layouts/simple';
 //
-import BlogPage from './pages/BlogPage';
+import PostPage from './pages/PostPage';
 import UserPage from './pages/UserPage';
 import LoginPage from './pages/LoginPage';
 import Page404 from './pages/Page404';
-import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
-import PostCreatePage from './pages/PostCreatePage'
+import PostCreatePage from './pages/PostCreatePage';
+import BotUserPage from './pages/BotUserPage';
+import GroupsPage from './pages/GroupsPage';
 
 // ----------------------------------------------------------------------
 
@@ -22,9 +23,10 @@ export default function Router() {
         { element: <Navigate to="/dashboard/app" />, index: true },
         { path: 'app', element: <DashboardAppPage /> },
         { path: 'user', element: <UserPage /> },
-        { path: 'products', element: <ProductsPage /> },
-        { path: 'blog', element: <BlogPage /> },
-        { path: 'post', element: <PostCreatePage /> }
+        { path: 'groups', element: <GroupsPage /> },
+        { path: 'post', element: <PostPage /> },
+        { path: 'post-create', element: <PostCreatePage /> },
+        { path: 'bot-user', element: <BotUserPage /> }
       ],
     },
     {
@@ -34,7 +36,7 @@ export default function Router() {
     {
       element: <SimpleLayout />,
       children: [
-        { element: <Navigate to="/dashboard/app" />, index: true },
+        { element: <Navigate to="/login" />, index: true },
         { path: '404', element: <Page404 /> },
         { path: '*', element: <Navigate to="/404" /> },
       ],

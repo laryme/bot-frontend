@@ -1,16 +1,18 @@
 import { Helmet } from 'react-helmet-async';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // @mui
 import { Container, Stack, Typography } from '@mui/material';
+import axios from 'axios';
 // components
-import { ProductSort, ProductList, ProductFilterSidebar } from '../sections/@dashboard/products';
-// mock
-import PRODUCTS from '../_mock/products';
+import { ProductSort, GroupList, ProductFilterSidebar } from '../sections/@dashboard/products';
+
+
 
 // ----------------------------------------------------------------------
 
-export default function ProductsPage() {
+export default function GroupsPage() {
   const [openFilter, setOpenFilter] = useState(false);
+  const [groups, setGroups] = useState([]);
 
   const handleOpenFilter = () => {
     setOpenFilter(true);
@@ -19,6 +21,26 @@ export default function ProductsPage() {
   const handleCloseFilter = () => {
     setOpenFilter(false);
   };
+
+  useEffect(() =>{
+    const apiUrl = 'http://localhost:8081/api/v1/groups';
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `${localStorage.getItem('token-type')}${localStorage.getItem('access-token')}`
+      }
+    };
+
+    axios.get(apiUrl, config)
+        .then(response => {
+          const {data} = response.data
+          console.log(data.content)
+          setGroups(data.content);
+        })
+        .catch(error => {
+            console.error('Error fetching users:', error);
+        });
+  },[]);
 
   return (
     <>
@@ -42,7 +64,7 @@ export default function ProductsPage() {
           </Stack>
         </Stack>
 
-        <ProductList products={PRODUCTS} />
+        <GroupList groups={groups} />
       </Container>
     </>
   );

@@ -10,7 +10,7 @@ export function bgBlur(props) {
   const imgUrl = props?.imgUrl;
 
   if (imgUrl) {
-    return {
+    return {                                                                                          
       position: 'relative',
       backgroundImage: `url(${imgUrl})`,
       '&:before': {
