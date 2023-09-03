@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // @mui
 import { Link, Stack, IconButton, InputAdornment, TextField } from '@mui/material';
@@ -39,11 +39,18 @@ export default function LoginForm() {
     })
   }
 
+  useEffect(() => {
+    const token = localStorage.getItem('access-token');
+    const tokenType = localStorage.getItem('token-type');
 
+    if(token !== null && tokenType === 'Bearer '){
+      navigate('/dashboard', {replace: true})
+    }
+  });
 
   const handleClick = () => {
     axios.post(
-      'http://localhost:8081/api/v1/auth/sign-in',
+      'http://laryme.jprq.live/api/v1/auth/sign-in',
       {
         username,
         password

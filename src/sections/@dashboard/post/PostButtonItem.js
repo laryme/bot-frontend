@@ -4,16 +4,6 @@ import { styled } from '@mui/material/styles';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-// const Item = styled(Paper)(({ theme, width }) => ({
-//     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#00b',
-//     ...theme.typography.body2,
-//     padding: theme.spacing(1),
-//     textAlign: 'center',
-//     color: '#fff',
-//     width: width || 'auto', // Corrected the width logic
-//     margin: '5px 5px 5px 5px',
-//     height: '40px',
-//   }));
 
 const ItemContainer = styled(Paper)(({ theme, width }) => ({
     display: 'flex',
@@ -36,16 +26,18 @@ const ItemContainer = styled(Paper)(({ theme, width }) => ({
   PostButtonItem.propTypes = {
     button: PropTypes.object.isRequired,
     index: PropTypes.number,
-    onDelete: PropTypes.func
+    onDelete: PropTypes.func,
+    key: PropTypes.number,
   };
 
 
-export default function PostButtonItem({ button, index, onDelete }) {
-    const {name, link, type} = button
+export default function PostButtonItem({ key, button, index, onDelete }) {
+    const {name, link, type} = button;
+    console.log(button)
     return (
-        <ItemContainer width={type === '1' ? 390 : 790}>
+        <ItemContainer width={type === 'MEDIUM' ? 390 : 790}>
         <NameContainer>{name}</NameContainer>
-        <IconButton onClick={onDelete} aria-label="Delete">
+        <IconButton onClick={() => onDelete(index)} aria-label="Delete">
           <DeleteIcon color='error'/>
         </IconButton>
       </ItemContainer>

@@ -11,10 +11,12 @@ import DashboardAppPage from './pages/DashboardAppPage';
 import PostCreatePage from './pages/PostCreatePage';
 import BotUserPage from './pages/BotUserPage';
 import GroupsPage from './pages/GroupsPage';
+import AccountPage from './pages/AccountPage';
 
 // ----------------------------------------------------------------------
 
 export default function Router() {
+  
   const routes = useRoutes([
     {
       path: '/dashboard',
@@ -22,11 +24,12 @@ export default function Router() {
       children: [
         { element: <Navigate to="/dashboard/app" />, index: true },
         { path: 'app', element: <DashboardAppPage /> },
-        { path: 'user', element: <UserPage /> },
+        { path: 'bot-user', element: <UserPage /> },
         { path: 'groups', element: <GroupsPage /> },
         { path: 'post', element: <PostPage /> },
         { path: 'post-create', element: <PostCreatePage /> },
-        { path: 'bot-user', element: <BotUserPage /> }
+        { path: 'user', element: <BotUserPage /> },
+        { path: 'settings', element: <AccountPage /> },
       ],
     },
     {

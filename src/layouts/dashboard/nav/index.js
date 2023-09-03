@@ -3,9 +3,7 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 // @mui
 import { styled, alpha } from '@mui/material/styles';
-import { Box, Link, Button, Drawer, Typography, Avatar, Stack } from '@mui/material';
-// mock
-import account from '../../../_mock/account';
+import { Box, Link, Drawer, Typography, Avatar } from '@mui/material';
 // hooks
 import useResponsive from '../../../hooks/useResponsive';
 // components
@@ -32,12 +30,14 @@ const StyledAccount = styled('div')(({ theme }) => ({
 Nav.propTypes = {
   openNav: PropTypes.bool,
   onCloseNav: PropTypes.func,
+  user: PropTypes.any
 };
 
-export default function Nav({ openNav, onCloseNav }) {
+export default function Nav({ user, openNav, onCloseNav }) {
   const { pathname } = useLocation();
 
   const isDesktop = useResponsive('up', 'lg');
+  console.log('nav user : {}', user)
 
   useEffect(() => {
     if (openNav) {
@@ -60,15 +60,15 @@ export default function Nav({ openNav, onCloseNav }) {
       <Box sx={{ mb: 5, mx: 2.5 }}>
         <Link underline="none">
           <StyledAccount>
-            <Avatar src={account.photoURL} alt="photoURL" />
+            <Avatar src='/assets/images/avatars/avatar_1.jpg' alt="photoURL" />
 
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {account.displayName}
+                {user? user.fullName:'name'}
               </Typography>
 
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {account.role}
+                {user? user.username:'username'}
               </Typography>
             </Box>
           </StyledAccount>

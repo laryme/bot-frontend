@@ -1,13 +1,10 @@
 import PropTypes from 'prop-types';
 // @mui
 import { alpha, styled } from '@mui/material/styles';
-import { Box, Link, Card, Grid, Avatar, Typography, CardContent } from '@mui/material';
-// utils
-import { fDate } from '../../../utils/formatTime';
-import { fShortenNumber } from '../../../utils/formatNumber';
-//
-import SvgColor from '../../../components/svg-color';
-import Iconify from '../../../components/iconify';
+import { Link, Card, Grid, Avatar, Typography, CardContent, Stack, IconButton, FormControlLabel, Switch } from '@mui/material';
+
+import { BugReport, Delete, Send } from '@mui/icons-material';
+import { useState } from 'react';
 
 // ----------------------------------------------------------------------
 
@@ -33,14 +30,6 @@ const StyledAvatar = styled(Avatar)(({ theme }) => ({
   bottom: theme.spacing(-2),
 }));
 
-const StyledInfo = styled('div')(({ theme }) => ({
-  display: 'flex',
-  flexWrap: 'wrap',
-  justifyContent: 'flex-end',
-  marginTop: theme.spacing(3),
-  color: theme.palette.text.disabled,
-}));
-
 const StyledCover = styled('img')({
   top: 0,
   width: '100%',
@@ -54,25 +43,23 @@ const StyledCover = styled('img')({
 BlogPostCard.propTypes = {
   post: PropTypes.object.isRequired,
   index: PropTypes.number,
+  onTest: PropTypes.func,
+  onSend: PropTypes.func,
+  onDelete: PropTypes.func
 };
 
-export default function BlogPostCard({ post, index }) {
-  const { cover, title, view, comment, share, author, createdAt } = post;
-  const latestPostLarge = index === 0;
-  const latestPost = index === 1 || index === 2;
+export default function BlogPostCard({ post, index, onTest, onSend, onDelete }) {
+  const { id, title, createdAt } = post;
+  const [allGroups, setAllGroups] = useState(false);
+  const [allUsers, setAllUsers] = useState(false);
 
-  const POST_INFO = [
-    { number: comment, icon: 'eva:message-circle-fill' },
-    { number: view, icon: 'eva:eye-fill' },
-    { number: share, icon: 'eva:share-fill' },
-  ];
 
   return (
-    <Grid item xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 6 : 3}>
+    <Grid item xs={12} sm={6} md={3}>
       <Card sx={{ position: 'relative' }}>
         <StyledCardMedia
           sx={{
-            ...((latestPostLarge || latestPost) && {
+            ...({
               pt: 'calc(100% * 4 / 3)',
               '&:after': {
                 top: 0,
@@ -83,32 +70,15 @@ export default function BlogPostCard({ post, index }) {
                 bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72),
               },
             }),
-            ...(latestPostLarge && {
-              pt: {
-                xs: 'calc(100% * 4 / 3)',
-                sm: 'calc(100% * 3 / 4.66)',
-              },
-            }),
+            
           }}
         >
-          <SvgColor
-            color="paper"
-            src="/assets/icons/shape-avatar.svg"
-            sx={{
-              width: 80,
-              height: 36,
-              zIndex: 9,
-              bottom: -15,
-              position: 'absolute',
-              color: 'background.paper',
-              ...((latestPostLarge || latestPost) && { display: 'none' }),
-            }}
-          />
+          
           <StyledAvatar
-            alt={author.name}
-            src={author.avatarUrl}
+            alt={title}
+            src={`/assets/images/avatars/avatar_${id%7}.jpg`}
             sx={{
-              ...((latestPostLarge || latestPost) && {
+              ...({
                 zIndex: 9,
                 top: 24,
                 left: 24,
@@ -118,13 +88,13 @@ export default function BlogPostCard({ post, index }) {
             }}
           />
 
-          <StyledCover alt={title} src={cover} />
+          <StyledCover alt={title} src={`/assets/images/covers/cover_${id % 7}.jpg`} />
         </StyledCardMedia>
 
         <CardContent
           sx={{
             pt: 4,
-            ...((latestPostLarge || latestPost) && {
+            ...({
               bottom: 0,
               width: '100%',
               position: 'absolute',
@@ -132,7 +102,7 @@ export default function BlogPostCard({ post, index }) {
           }}
         >
           <Typography gutterBottom variant="caption" sx={{ color: 'text.disabled', display: 'block' }}>
-            {fDate(createdAt)}
+            {createdAt[0]}-{createdAt[1]}-{createdAt[2]} {createdAt[3]}:{createdAt[4]}
           </Typography>
 
           <StyledTitle
@@ -140,33 +110,36 @@ export default function BlogPostCard({ post, index }) {
             variant="subtitle2"
             underline="hover"
             sx={{
-              ...(latestPostLarge && { typography: 'h5', height: 60 }),
-              ...((latestPostLarge || latestPost) && {
+              ...({
                 color: 'common.white',
               }),
             }}
           >
             {title}
           </StyledTitle>
-
-          <StyledInfo>
-            {POST_INFO.map((info, index) => (
-              <Box
-                key={index}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  ml: index === 0 ? 0 : 1.5,
-                  ...((latestPostLarge || latestPost) && {
-                    color: 'grey.500',
-                  }),
-                }}
-              >
-                <Iconify icon={info.icon} sx={{ width: 16, height: 16, mr: 0.5 }} />
-                <Typography variant="caption">{fShortenNumber(info.number)}</Typography>
-              </Box>
-            ))}
-          </StyledInfo>
+          <Stack direction="row" width="50%">
+            <FormControlLabel control={<Switch checked = {allGroups} onChange={() => setAllGroups(!allGroups)}/>} label="G" sx={{
+              ...({
+                color: 'common.white',
+              }),
+            }}/>
+            <FormControlLabel control={<Switch checked = {allUsers} onChange={() => setAllUsers(!allUsers)}/>} label="F" sx={{
+              ...({
+                color: 'common.white',
+              }),
+            }}/>
+          </Stack>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" mt={2}>
+            <IconButton onClick={() => onTest(id)}>
+              <BugReport color='success'/>
+            </IconButton>
+            <IconButton onClick={() => onSend(id, allGroups, allUsers)}>
+              <Send color='primary'/>
+            </IconButton>
+            <IconButton onClick={() => onDelete(id)}>
+              <Delete color='error'/>
+            </IconButton>
+          </Stack>
         </CardContent>
       </Card>
     </Grid>

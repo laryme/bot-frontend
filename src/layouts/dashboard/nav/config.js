@@ -12,13 +12,13 @@ const navConfig = [
     icon: icon('ic_analytics'),
   },
   {
-    title: 'foydalanuvchilar',
-    path: '/dashboard/user',
+    title: 'bot foydalanuvchilari',
+    path: '/dashboard/bot-user',
     icon: icon('ic_user'),
   },
   {
-    title: 'Bot foydalanuvchilari',
-    path: '/dashboard/bot-user',
+    title: 'foydalanuvchilar',
+    path: '/dashboard/user',
     icon: icon('ic_user'),
   },
   {
@@ -33,7 +33,7 @@ const navConfig = [
   },
   {
     title: 'sozlamalar',
-    path: '/settings',
+    path: '/dashboard/settings',
     icon: icon('ic_lock'),
   }
 ];

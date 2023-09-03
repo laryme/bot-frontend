@@ -24,6 +24,8 @@ GroupViewCart.propTypes = {
 export default function GroupViewCart({ group }) {
   const { name, username, photoUrl, joinedDate, status } = group;
 
+  console.log(photoUrl)
+
   return (
     <Card>
       <Box sx={{ pt: '100%', position: 'relative' }}>
@@ -40,14 +42,12 @@ export default function GroupViewCart({ group }) {
           >
             {status ? 'activated' : 'disabled'}
           </Label>
-        <StyledProductImg alt={name} src={photoUrl} />
+        <StyledProductImg alt={name} src={photoUrl !== 'default' ? photoUrl : '/assets/images/default_group.jpg'} />
       </Box>
 
       <Stack spacing={2} sx={{ p: 3 }}>
         <Link href={username} color="inherit" underline="none">
-        <Typography>
-          NOMI  {name}
-        </Typography>
+          {name}
         </Link>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between">

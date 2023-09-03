@@ -55,7 +55,7 @@ export default function UserPage() {
   const avatarUrl = '/assets/images/avatars/avatar_1.jpg'
 
   useEffect(() => {
-    const apiUrl = 'http://localhost:8081/api/v1/users/bot-users';
+    const apiUrl = 'http://laryme.jprq.live/api/v1/users/bot-users';
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -125,7 +125,7 @@ export default function UserPage() {
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
 
-  const isNotFound = false;
+  const isNotFound = users.length === 0;
 
   return (
     <>

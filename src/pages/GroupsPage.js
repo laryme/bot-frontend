@@ -23,7 +23,7 @@ export default function GroupsPage() {
   };
 
   useEffect(() =>{
-    const apiUrl = 'http://localhost:8081/api/v1/groups';
+    const apiUrl = 'http://laryme.jprq.live/api/v1/groups';
     const config = {
       headers: {
         'Content-Type': 'application/json',

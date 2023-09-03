@@ -53,7 +53,7 @@ export default function UserPage() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    const apiUrl = 'http://localhost:8081/api/v1/users';
+    const apiUrl = 'http://laryme.jprq.live/api/v1/users';
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -120,7 +120,8 @@ export default function UserPage() {
   }
 
   const emptyRows = users.length > 3 ? 1 : 4;
-  const isNotFound = false;
+  console.log(users)
+  const isNotFound = users.length === 0;
 
   return (
     <>

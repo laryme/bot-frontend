@@ -1,5 +1,7 @@
-import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
+
+import axios from 'axios';
 // @mui
 import { styled } from '@mui/material/styles';
 //
@@ -33,13 +35,41 @@ const Main = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function DashboardLayout() {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [user, setUser] = useState();
+  const token = localStorage.getItem('access-token');
+
+  useEffect(()=>{
+    console.log('dashboard layout use effect')
+    if(token !== null){
+      console.log('token bor')
+      const apiUrl = 'http://laryme.jprq.live/api/v1/users/me';
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `${localStorage.getItem('token-type')}${token}`
+        },
+      }
+      axios.get(apiUrl, config)
+        .then(response => {
+          const {data} = response.data;
+          console.log(data)
+          setUser(data);
+       }).catch((error) => {
+         navigate('/login', {replace: true})
+      })
+    }else{
+      console.log('token yoq')
+      navigate('/login', {replace: true})
+    }
+  }, [])
 
   return (
     <StyledRoot>
-      <Header onOpenNav={() => setOpen(true)} />
+      <Header user={user} onOpenNav={() => setOpen(true)} />
 
-      <Nav openNav={open} onCloseNav={() => setOpen(false)} />
+      <Nav user={user} openNav={open} onCloseNav={() => setOpen(false)} />
 
       <Main>
         <Outlet />
