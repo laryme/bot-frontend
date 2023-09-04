@@ -55,7 +55,7 @@ export default function UserPage() {
   const avatarUrl = '/assets/images/avatars/avatar_1.jpg'
 
   useEffect(() => {
-    const apiUrl = 'http://laryme.jprq.live/api/v1/users/bot-users';
+    const apiUrl = 'https://api.larydev.uz/api/v1/users/bot-users';
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ export default function UserPage() {
 
   const onSearch = () => {
 
-    const apiUrl = 'http://localhost:8081/api/v1/users/bot-users/search';
+    const apiUrl = 'https://localhost:8081/api/v1/users/bot-users/search';
     const config = {
       headers: {
         'Content-Type': 'application/json',

@@ -34,7 +34,7 @@ export default function AccountPage() {
   });
 
   useEffect(()=>{
-    const apiUrl = 'http://laryme.jprq.live/api/v1/users/profile';
+    const apiUrl = 'https://api.larydev.uz/api/v1/users/profile';
       const config = {
         headers: {
           'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ export default function AccountPage() {
   );
 
     const updateUserDetails = (newUser) => {
-      const apiUrl = `http://laryme.jprq.live/api/v1/users/${user.id}`;
+      const apiUrl = `https://api.larydev.uz/api/v1/users/${user.id}`;
       const config = {
         headers: {
           'Content-Type': 'application/json',
@@ -113,7 +113,7 @@ export default function AccountPage() {
   
     const updateUserPassword = ( ) => {
     console.log(password)
-      const apiUrl = `http://laryme.jprq.live/api/v1/users/${user.id}/change-password`;
+      const apiUrl = `https://api.larydev.uz/api/v1/users/${user.id}/change-password`;
       const config = {
         headers: {
           'Content-Type': 'application/json',

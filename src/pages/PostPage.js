@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 // @mui
-import { Grid, Button, Container, Stack, Typography, TableBody, TableRow, TableCell, Paper } from '@mui/material';
+import { Grid, Button, Container, Stack, Typography} from '@mui/material';
 
 
 import { useState, useEffect } from 'react';
@@ -22,7 +22,7 @@ export default function PostPage() {
   const [posts, setPosts] = useState([])
 
   useEffect(() => {
-    const apiUrl = 'http://laryme.jprq.live/api/v1/posts';
+    const apiUrl = 'https://api.larydev.uz/api/v1/posts';
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ export default function PostPage() {
       confirmButtonText: 'Yuborish'
     }).then((result) => {
       if (result.isConfirmed) {
-        const apiUrl = `http://laryme.jprq.live/api/v1/posts/test/${id}`;
+        const apiUrl = `https://api.larydev.uz/api/v1/posts/test/${id}`;
         const config = {
           headers: {
             'Content-Type': 'application/json',
@@ -102,7 +102,7 @@ export default function PostPage() {
       confirmButtonText: 'Tasdiqlash'
     }).then((result) => {
       if (result.isConfirmed) {
-        const apiUrl = `http://laryme.jprq.live/api/v1/posts/send/${id}`;
+        const apiUrl = `https://api.larydev.uz/api/v1/posts/send/${id}`;
         const config = {
           headers: {
             'Content-Type': 'application/json',
@@ -146,7 +146,7 @@ export default function PostPage() {
       confirmButtonText: 'O\'chirish'
     }).then((result) => {
       if (result.isConfirmed) {
-        const apiUrl = `http://laryme.jprq.live/api/v1/posts/${id}`;
+        const apiUrl = `https://api.larydev.uz/api/v1/posts/${id}`;
         const config = {
           headers: {
             'Content-Type': 'application/json',
@@ -174,7 +174,7 @@ export default function PostPage() {
     })
   }
   
-const isNotFound = posts.length === 0;
+// const isNotFound = posts.length === 0;
 
   return (
     <>

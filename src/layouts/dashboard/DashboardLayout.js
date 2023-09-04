@@ -44,7 +44,7 @@ export default function DashboardLayout() {
     console.log('dashboard layout use effect')
     if(token !== null){
       console.log('token bor')
-      const apiUrl = 'http://laryme.jprq.live/api/v1/users/me';
+      const apiUrl = 'https://api.larydev.uz/api/v1/users/me';
       const config = {
         headers: {
           'Content-Type': 'application/json',

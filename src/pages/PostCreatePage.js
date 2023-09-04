@@ -118,7 +118,7 @@ export default function PostCreatePage() {
         postType: type
       }
 
-      const apiUrl = 'http://laryme.jprq.live/api/v1/posts';
+      const apiUrl = 'https://api.larydev.uz/api/v1/posts';
       const config = {
         headers: {
           "Content-Type": "multipart/form-data",
