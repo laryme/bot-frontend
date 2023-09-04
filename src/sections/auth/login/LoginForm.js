@@ -51,7 +51,7 @@ export default function LoginForm() {
 
   const handleClick = () => {
     axios.post(
-      'https://laryme.jprq.live/api/v1/auth/sign-in',
+      'https://api.larydev.uz/api/v1/auth/sign-in',
       {
         username,
         password

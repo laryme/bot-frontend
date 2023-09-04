@@ -53,7 +53,7 @@ export default function UserPage() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    const apiUrl = 'http://laryme.jprq.live/api/v1/users';
+    const apiUrl = 'https://api.larydev.uz/api/v1/users';
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ export default function UserPage() {
   }, []);
 
   const handleDeleteUser = (id) => {
-    const apiUrl = `http://localhost:8081/api/v1/users/${id}`;
+    const apiUrl = `https://api.larydev.uz/api/v1/users/${id}`;
     const config = {
       headers: {
         'Content-Type': 'application/json',
