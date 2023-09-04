@@ -44,13 +44,14 @@ export default function LoginForm() {
     const tokenType = localStorage.getItem('token-type');
 
     if(token !== null && tokenType === 'Bearer '){
+      axios.get('')
       navigate('/dashboard', {replace: true})
     }
   });
 
   const handleClick = () => {
     axios.post(
-      'http://laryme.jprq.live/api/v1/auth/sign-in',
+      'https://laryme.jprq.live/api/v1/auth/sign-in',
       {
         username,
         password
