@@ -44,6 +44,7 @@ export default function LoginForm() {
     const tokenType = localStorage.getItem('token-type');
 
     if(token !== null && tokenType === 'Bearer '){
+      axios.get('')
       navigate('/dashboard', {replace: true})
     }
   });
