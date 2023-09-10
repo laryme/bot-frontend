@@ -1,6 +1,9 @@
 import { Helmet } from 'react-helmet-async';
 import { faker } from '@faker-js/faker';
 // @mui
+
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
 // components
@@ -22,6 +25,27 @@ import {
 
 export default function DashboardAppPage() {
   const theme = useTheme();
+  const [stats, setStats] = useState();
+
+  useEffect(() =>{
+    const apiUrl = 'https://api.larydev.uz/api/v1/users/stats';
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `${localStorage.getItem('token-type')}${localStorage.getItem('access-token')}`
+      }
+    };
+
+    axios.get(apiUrl, config)
+        .then(response => {
+          const {data} = response.data
+          console.log(data)
+          setStats(data);
+        })
+        .catch(error => {
+            console.error('Error fetching stats:', error);
+        });
+  },[]);
 
   return (
     <>
