@@ -2,11 +2,14 @@ import { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
+
 // @mui
 import { styled } from '@mui/material/styles';
+import { API_BASE_URL } from '../../utils/config';
 //
 import Header from './header';
 import Nav from './nav';
+
 
 // ----------------------------------------------------------------------
 
@@ -41,10 +44,8 @@ export default function DashboardLayout() {
   const token = localStorage.getItem('access-token');
 
   useEffect(()=>{
-    console.log('dashboard layout use effect')
     if(token !== null){
-      console.log('token bor')
-      const apiUrl = 'https://api.larydev.uz/api/v1/users/me';
+      const apiUrl = `${API_BASE_URL}/users/me`;
       const config = {
         headers: {
           'Content-Type': 'application/json',
@@ -54,9 +55,10 @@ export default function DashboardLayout() {
       axios.get(apiUrl, config)
         .then(response => {
           const {data} = response.data;
-          console.log(data)
           setUser(data);
        }).catch((error) => {
+         localStorage.removeItem('access-token')
+         localStorage.removeItem('token-type')
          navigate('/login', {replace: true})
       })
     }else{

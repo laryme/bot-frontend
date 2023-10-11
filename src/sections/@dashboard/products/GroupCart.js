@@ -22,7 +22,7 @@ GroupViewCart.propTypes = {
 };
 
 export default function GroupViewCart({ group }) {
-  const { name, username, photoUrl, joinedDate, status } = group;
+  const { name, username, photoUrl, joinedDate, userCount, status } = group;
 
   console.log(photoUrl)
 
@@ -31,7 +31,7 @@ export default function GroupViewCart({ group }) {
       <Box sx={{ pt: '100%', position: 'relative' }}>
       <Label
             variant="filled"
-            color={status ? 'info' : 'error'}
+            color={status ? 'success' : 'error'}
             sx={{
               zIndex: 9,
               top: 16,
@@ -49,6 +49,15 @@ export default function GroupViewCart({ group }) {
         <Link href={username} color="inherit" underline="none">
           {name}
         </Link>
+
+        <Stack direction="row" alignItems="center" justifyContent="space-between">
+          <Typography>
+            AZOLAR SONI
+          </Typography>
+          <Typography>
+          {userCount}
+          </Typography>
+        </Stack>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between">
           <Typography>

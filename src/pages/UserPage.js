@@ -26,6 +26,7 @@ import Scrollbar from '../components/scrollbar';
 
 // sections
 import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
+import { API_BASE_URL } from '../utils/config';
 
 // ----------------------------------------------------------------------
 
@@ -55,7 +56,7 @@ export default function UserPage() {
   const avatarUrl = '/assets/images/avatars/avatar_1.jpg'
 
   useEffect(() => {
-    const apiUrl = 'https://api.larydev.uz/api/v1/users/bot-users';
+    const apiUrl = `${API_BASE_URL}/users/bot-users`;
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -98,7 +99,7 @@ export default function UserPage() {
 
   const onSearch = () => {
 
-    const apiUrl = 'https://localhost:8081/api/v1/users/bot-users/search';
+    const apiUrl = `${API_BASE_URL}/users/bot-users/search`;
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -123,7 +124,7 @@ export default function UserPage() {
     // smth
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - totalUsers) : 0;
 
   const isNotFound = users.length === 0;
 
@@ -138,7 +139,7 @@ export default function UserPage() {
           <Typography variant="h4" gutterBottom>
             Foydalanuvchilar
           </Typography>
-          <Button variant="contained" startIcon={<Iconify icon="eva:download-fill" />}>
+          <Button variant="contained" disabled startIcon={<Iconify icon="eva:download-fill" />}>
             Malumotlarni yuklab olish
           </Button>
         </Stack>

@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
 import { BlogPostCard } from '../sections/@dashboard/blog';
 // components
 import Iconify from '../components/iconify';
+import { API_BASE_URL } from '../utils/config';
 
 
 
@@ -22,7 +23,7 @@ export default function PostPage() {
   const [posts, setPosts] = useState([])
 
   useEffect(() => {
-    const apiUrl = 'https://api.larydev.uz/api/v1/posts';
+    const apiUrl = `${API_BASE_URL}/posts`;
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -55,7 +56,7 @@ export default function PostPage() {
       confirmButtonText: 'Yuborish'
     }).then((result) => {
       if (result.isConfirmed) {
-        const apiUrl = `https://api.larydev.uz/api/v1/posts/test/${id}`;
+        const apiUrl = `${API_BASE_URL}/posts/test/${id}`;
         const config = {
           headers: {
             'Content-Type': 'application/json',
@@ -102,7 +103,7 @@ export default function PostPage() {
       confirmButtonText: 'Tasdiqlash'
     }).then((result) => {
       if (result.isConfirmed) {
-        const apiUrl = `https://api.larydev.uz/api/v1/posts/send/${id}`;
+        const apiUrl = `${API_BASE_URL}/posts/send/${id}`;
         const config = {
           headers: {
             'Content-Type': 'application/json',
@@ -146,7 +147,7 @@ export default function PostPage() {
       confirmButtonText: 'O\'chirish'
     }).then((result) => {
       if (result.isConfirmed) {
-        const apiUrl = `https://api.larydev.uz/api/v1/posts/${id}`;
+        const apiUrl = `${API_BASE_URL}/posts/${id}`;
         const config = {
           headers: {
             'Content-Type': 'application/json',

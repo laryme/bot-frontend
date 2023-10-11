@@ -8,6 +8,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Iconify from '../components/iconify';
 import PostButtonItem from '../sections/@dashboard/post/PostButtonItem';
+import { API_BASE_URL } from '../utils/config';
 
 
 export default function PostCreatePage() {
@@ -118,7 +119,7 @@ export default function PostCreatePage() {
         postType: type
       }
 
-      const apiUrl = 'https://api.larydev.uz/api/v1/posts';
+      const apiUrl = `${API_BASE_URL}/posts`;
       const config = {
         headers: {
           "Content-Type": "multipart/form-data",

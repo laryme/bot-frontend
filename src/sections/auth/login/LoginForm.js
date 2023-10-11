@@ -5,8 +5,10 @@ import { Link, Stack, IconButton, InputAdornment, TextField } from '@mui/materia
 import { LoadingButton } from '@mui/lab';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+
 // components
 import Iconify from '../../../components/iconify';
+import { API_BASE_URL } from '../../../utils/config';
 
 
 // ----------------------------------------------------------------------
@@ -51,7 +53,7 @@ export default function LoginForm() {
 
   const handleClick = () => {
     axios.post(
-      'https://api.larydev.uz/api/v1/auth/sign-in',
+      `${API_BASE_URL}/auth/sign-in`,
       {
         username,
         password

@@ -20,9 +20,11 @@ import {
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
+
 // components
 
 import { Delete } from '@mui/icons-material';
+import { API_BASE_URL } from '../utils/config';
 import Iconify from '../components/iconify';
 import Scrollbar from '../components/scrollbar';
 import Label from '../components/label';
@@ -53,7 +55,7 @@ export default function UserPage() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    const apiUrl = 'https://api.larydev.uz/api/v1/users';
+    const apiUrl = `${API_BASE_URL}/users`;
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -74,7 +76,7 @@ export default function UserPage() {
   }, []);
 
   const handleDeleteUser = (id) => {
-    const apiUrl = `https://api.larydev.uz/api/v1/users/${id}`;
+    const apiUrl = `${API_BASE_URL}/users/${id}`;
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -134,7 +136,7 @@ export default function UserPage() {
           <Typography variant="h4" gutterBottom>
             Foydalanuvchilar
           </Typography>
-          <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
+          <Button variant="contained" disabled startIcon={<Iconify icon="eva:plus-fill" />}>
             Yangi foydalanuvchi qo'shish
           </Button>
         </Stack>

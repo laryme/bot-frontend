@@ -5,7 +5,7 @@ import { Container, Stack, Typography } from '@mui/material';
 import axios from 'axios';
 // components
 import { ProductSort, GroupList, ProductFilterSidebar } from '../sections/@dashboard/products';
-
+import { API_BASE_URL } from '../utils/config';
 
 
 // ----------------------------------------------------------------------
@@ -23,7 +23,7 @@ export default function GroupsPage() {
   };
 
   useEffect(() =>{
-    const apiUrl = 'https://api.larydev.uz/api/v1/groups';
+    const apiUrl = `${API_BASE_URL}/groups`;
     const config = {
       headers: {
         'Content-Type': 'application/json',
