@@ -6,6 +6,7 @@ import { styled } from '@mui/material/styles';
 import { Container, Typography } from '@mui/material';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import CompanyList from '../sections/auth/login/CompanyList';
 // hooks
 import useResponsive from '../hooks/useResponsive';
 // components
@@ -35,7 +36,7 @@ const StyledSection = styled('div')(({ theme }) => ({
 }));
 
 const StyledContent = styled('div')(({ theme }) => ({
-  maxWidth: 480,
+  maxWidth: 400,
   margin: 'auto',
   minHeight: '100vh',
   display: 'flex',
@@ -52,6 +53,8 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [openCompany, setCompany] = useState(false);
+  const [userCompanyDetails, setDetails] = useState();
 
   const Toast = Swal.mixin({
     toast: true,
@@ -97,17 +100,50 @@ export default function LoginPage() {
         console.log(response)
         const {data} = response;
         if(data.success){
-          
-          const token = data.data;
-          localStorage.setItem('token-type', token.tokenType)
-          localStorage.setItem('access-token', token.accessToken)
-          localStorage.setItem('refresh-token', token.refreshToken)
-          navigate('/dashboard', { replace: true });
+          const resData = data.data;
+
+          if(resData.hasToken){
+            localStorage.setItem('token-type', resData.tokenType)
+            localStorage.setItem('access-token', resData.accessToken)
+            localStorage.setItem('refresh-token', resData.refreshToken)
+            navigate('/dashboard', { replace: true });
+          } else {
+            setDetails(resData)
+            setCompany(true);
+          }
         }
       }).catch(e =>{
         showToast()
       });
   };
+
+  const handleChooseCompany = (companyID) => {
+    axios.post(
+      `${API_BASE_URL}/auth/change-company`,
+      {
+        username,
+        password,
+        companyId: companyID
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    ).then((responce => {
+      const {data} = responce;
+
+      if(data.success){
+        const resData = data.data;
+        localStorage.setItem('token-type', resData.tokenType)
+        localStorage.setItem('access-token', resData.accessToken)
+        localStorage.setItem('refresh-token', resData.refreshToken)
+        navigate('/dashboard', { replace: true });
+      }
+    })).catch((e => {
+      navigate('/login', { replace: true });
+    }));
+  }
 
 
   return (
@@ -134,15 +170,34 @@ export default function LoginPage() {
           </StyledSection>
         )}
 
-        <Container maxWidth="sm">
-          <StyledContent>
-            <Typography variant="h4" gutterBottom>
-              Boshqaruv paneliga kirish
-            </Typography>
+        {!openCompany && (
+          <Container maxWidth="sm">
+            <StyledContent>
+              <Typography variant="h4" gutterBottom>
+                Boshqaruv paneliga kirish
+              </Typography>
 
-            <LoginForm username={username} password={password} setUsername={setUsername} setPassword={setPassword} onLogin={handleLogin}/>
-          </StyledContent>
+              <LoginForm username={username} password={password} setUsername={setUsername} setPassword={setPassword} onLogin={handleLogin}/>
+            </StyledContent>
         </Container>
+        )}
+
+        {openCompany && (
+          <Container maxWidth="sm">
+            <StyledContent>
+              <Typography variant="h3" gutterBottom align='center'>
+                Salom, {userCompanyDetails.fullName}!
+              </Typography>
+              <Typography variant="overline" mb={3} align='center' >
+                Iltimos kompaniyangizni tanlang.
+              </Typography>
+
+              <CompanyList companies={userCompanyDetails.companies} onClick={handleChooseCompany}/>
+            </StyledContent>
+          </Container>
+        )}
+
+
       </StyledRoot>
     </>
   );
