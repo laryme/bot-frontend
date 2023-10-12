@@ -1,82 +1,26 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import PropTypes from 'prop-types';
 // @mui
 import { Link, Stack, IconButton, InputAdornment, TextField } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import axios from 'axios';
-import Swal from 'sweetalert2';
 
 // components
 import Iconify from '../../../components/iconify';
-import { API_BASE_URL } from '../../../utils/config';
 
 
 // ----------------------------------------------------------------------
 
-export default function LoginForm() {
-  const navigate = useNavigate();
+LoginForm.propTypes = {
+  username: PropTypes.any.isRequired,
+  password: PropTypes.any.isRequired,
+  setUsername: PropTypes.func,
+  setPassword: PropTypes.func,
+  onLogin: PropTypes.func
 
-  const Toast = Swal.mixin({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.addEventListener('mouseenter', Swal.stopTimer)
-      toast.addEventListener('mouseleave', Swal.resumeTimer)
-    }
-  })
+};
 
+export default function LoginForm({username, password, setUsername, setPassword, onLogin}) {
   const [showPassword, setShowPassword] = useState(false);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-
-  
-  
-  const showToast = () => {
-    Toast.fire({
-      icon: 'error',
-      title: 'Foydalanuvchi nomi yoki parol xato'
-    })
-  }
-
-  useEffect(() => {
-    const token = localStorage.getItem('access-token');
-    const tokenType = localStorage.getItem('token-type');
-
-    if(token !== null && tokenType === 'Bearer '){
-      axios.get('')
-      navigate('/dashboard', {replace: true})
-    }
-  });
-
-  const handleClick = () => {
-    axios.post(
-      `${API_BASE_URL}/auth/sign-in`,
-      {
-        username,
-        password
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-      .then((response) => {
-        console.log(response)
-        const {data} = response;
-        if(data.success){
-          const token = data.data;
-          localStorage.setItem('access-token', token.accessToken)
-          localStorage.setItem('refresh-token', token.refreshToken)
-          localStorage.setItem('token-type', token.tokenType)
-          navigate('/dashboard', { replace: true });
-        }
-      }).catch(e =>{
-        showToast()
-      });
-  };
 
   return (
     <>
@@ -112,7 +56,7 @@ export default function LoginForm() {
         </Link>
       </Stack>
 
-      <LoadingButton fullWidth size="large" type="submit" variant="contained" onClick={handleClick}>
+      <LoadingButton fullWidth size="large" type="submit" variant="contained" onClick={onLogin}>
         Kirish
       </LoadingButton>
     </>
