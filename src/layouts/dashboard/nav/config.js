@@ -32,6 +32,11 @@ const navConfig = [
     icon: icon('ic_blog'),
   },
   {
+    title: 'Bot Instances',
+    path: '/dashboard/instances',
+    icon: icon('ic_blog'),
+  },
+  {
     title: 'sozlamalar',
     path: '/dashboard/settings',
     icon: icon('ic_lock'),

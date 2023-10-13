@@ -1,26 +1,17 @@
 import { Helmet } from 'react-helmet-async';
 import { useEffect, useState } from 'react';
 // @mui
-import { Container, Stack, Typography } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 import axios from 'axios';
 // components
-import { ProductSort, GroupList, ProductFilterSidebar } from '../sections/@dashboard/products';
+import { GroupList } from '../sections/@dashboard/products';
 import { API_BASE_URL } from '../utils/config';
 
 
 // ----------------------------------------------------------------------
 
 export default function GroupsPage() {
-  const [openFilter, setOpenFilter] = useState(false);
   const [groups, setGroups] = useState([]);
-
-  const handleOpenFilter = () => {
-    setOpenFilter(true);
-  };
-
-  const handleCloseFilter = () => {
-    setOpenFilter(false);
-  };
 
   useEffect(() =>{
     const apiUrl = `${API_BASE_URL}/groups`;
@@ -42,6 +33,8 @@ export default function GroupsPage() {
         });
   },[]);
 
+  const isEmpty = groups.length === 0;
+
   return (
     <>
       <Helmet>
@@ -53,18 +46,11 @@ export default function GroupsPage() {
           Guruhlar
         </Typography>
 
-        <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-end" sx={{ mb: 5 }}>
-          <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
-            <ProductFilterSidebar
-              openFilter={openFilter}
-              onOpenFilter={handleOpenFilter}
-              onCloseFilter={handleCloseFilter}
-            />
-            <ProductSort />
-          </Stack>
-        </Stack>
+        <GroupList groups={groups} /> 
 
-        <GroupList groups={groups} />
+        { isEmpty && 
+          <Typography variant="h3" align='center' alignItems={'center'} alignContent={'center'} mt={14}>Guruhlar mavjud emas</Typography>
+        }
       </Container>
     </>
   );

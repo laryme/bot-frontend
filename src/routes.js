@@ -12,6 +12,7 @@ import PostCreatePage from './pages/PostCreatePage';
 import BotUserPage from './pages/BotUserPage';
 import GroupsPage from './pages/GroupsPage';
 import AccountPage from './pages/AccountPage';
+import CompanyPage from './pages/CompanyPage';
 
 // ----------------------------------------------------------------------
 
@@ -30,6 +31,7 @@ export default function Router() {
         { path: 'post-create', element: <PostCreatePage /> },
         { path: 'user', element: <BotUserPage /> },
         { path: 'settings', element: <AccountPage /> },
+        { path: 'instances', element: <CompanyPage /> },
       ],
     },
     {

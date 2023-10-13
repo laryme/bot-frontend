@@ -12,7 +12,7 @@ export default function CompanyList({companies, onClick}){
     <>
         {companies.map((company, index) => (
             <Stack key={index} mb={2} textAlign={"left"}>
-                <Button color="secondary" onClick={() => onClick(company.id)}>{company.name}</Button>
+                <Button variant="outlined" color="secondary" onClick={() => onClick(company.id)}>{company.name}</Button>
             </Stack>
         ))}
     </>

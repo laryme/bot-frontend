@@ -51,21 +51,10 @@ export default function GroupViewCart({ group }) {
         </Link>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <Typography>
-            AZOLAR SONI
+          <Typography variant='caption'>
+            JOINED DATE   {joinedDate}
           </Typography>
-          <Typography>
-          {userCount}
-          </Typography>
-        </Stack>
-
-        <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <Typography>
-            JOINED DATE
-          </Typography>
-          <Typography>
-          {joinedDate}
-          </Typography>
+          
         </Stack>
       </Stack>
     </Card>

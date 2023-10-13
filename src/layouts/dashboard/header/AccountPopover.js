@@ -15,6 +15,11 @@ const MENU_OPTIONS = [
     path: '/dashboard',
   },
   {
+    label: 'Kompaniyani almashtirish',
+    icon: 'eva:settings-2-fill',
+    path: '/dashboard/change-company',
+  },
+  {
     label: 'Sozlamalar',
     icon: 'eva:settings-2-fill',
     path: '/dashboard/settings',
@@ -84,7 +89,7 @@ export default function AccountPopover({user}) {
             p: 0,
             mt: 1.5,
             ml: 0.75,
-            width: 180,
+            width: 200,
             '& .MuiMenuItem-root': {
               typography: 'body2',
               borderRadius: 0.75,
