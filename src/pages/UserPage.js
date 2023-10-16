@@ -125,7 +125,6 @@ export default function UserPage() {
   };
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - totalUsers) : 0;
-
   const isNotFound = users.length === 0;
 
   return (

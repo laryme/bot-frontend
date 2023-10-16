@@ -51,7 +51,7 @@ useEffect(()=>{
      }).catch((error) => {
         navigate('/login', {replace: true})
     })
-}, [])
+}, [navigate, token])
 
 const handleDetailChange = useCallback(
   (event) => {
@@ -114,7 +114,6 @@ const handlePasswordChange = useCallback(
   }
 
   const updateUserPassword = ( ) => {
-  console.log(password)
     const apiUrl = `${API_BASE_URL}/users/${user.id}/change-password`;
     const config = {
       headers: {
